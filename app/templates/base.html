@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SPK SAW Flask</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>SPK SAW</h2>
+    
+    <!-- Tambahan: Indikator pengguna login -->
+    <div class="user-info" style="margin-bottom: 10px; font-size: 14px; color: white;">
+      {% if session['username'] %}
+        👤 {{ session['username'] }}
+      {% else %}
+        👤 Guest
+      {% endif %}
+    </div>
+
+    <!-- Tambahan: Form pencarian -->
+    <form action="{{ url_for('search') }}" method="get" style="margin-bottom: 15px;">
+      <input type="text" name="q" placeholder="Cari Cafe..." style="width: 100%; padding: 5px; border-radius: 5px;">
+      <button type="submit" style="width: 100%; margin-top: 5px; padding: 5px;">Cari</button>
+    </form>
+
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('cafes') }}">Cafes</a>
+    <a href="{{ url_for('users') }}">Users</a>
+    <a href="{{ url_for('reviews') }}">Reviews</a>
+    <a href="{{ url_for('kriteria') }}">Kriteria</a>
+    <a href="{{ url_for('saw') }}">Perhitungan SAW</a>
+  </div>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

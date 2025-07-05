@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Perhitungan SAW</h2>
+<p>Langkah-langkah:</p>
+<ol>
+    <li>Normalisasi berdasarkan jenis kriteria (benefit/cost).</li>
+    <li>Kalikan dengan bobot.</li>
+    <li>Jumlahkan skor setiap alternatif.</li>
+</ol>
+
+<p><a href="{{ url_for('hasil') }}">Klik di sini untuk melihat hasil SAW</a></p>
+{% endblock %}

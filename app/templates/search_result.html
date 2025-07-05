@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hasil Pencarian</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .cafe-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cafe-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .cafe-location {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cafe-rating {
+            font-size: 16px;
+            margin-top: 5px;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h2>Hasil Pencarian untuk "{{ query }}"</h2>
+
+        {% if cafes %}
+        {% for cafe in cafes %}
+        <div class="cafe-card">
+            <div class="cafe-name">{{ cafe.nama }}</div>
+            <div class="cafe-location">📍 {{ cafe.lokasi }}</div>
+            <div class="cafe-rating">
+                {% set ulasan_list = cafe.ulasan %}
+                {% set total = ulasan_list | sum(attribute='nilai') %}
+                {% set count = ulasan_list | length %}
+                {% set rata2 = (total / count) if count > 0 else 0 %}
+                {% set bintang = rata2 | round(0, 'floor') %}
+
+                {% for i in range(bintang|int) %}
+                ⭐
+                {% endfor %}
+                {% for i in range(5 - (bintang|int)) %}
+                ☆
+                {% endfor %}
+
+                ({{ '%.2f' % rata2 }})
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>Tidak ada hasil untuk pencarianmu.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>

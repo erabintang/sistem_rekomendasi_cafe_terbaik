@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Hasil Perhitungan SAW</h2>
+
+<p>Berikut adalah hasil normalisasi dan skor akhir untuk setiap cafe berdasarkan metode SAW:</p>
+
+<!-- Tabel hasil -->
+<table border="1">
+  <tr>
+    <th>Nama Cafe</th>
+    {% for k in kriteria %}
+      <th>{{ k.nama }}</th>
+    {% endfor %}
+    <th>Skor Akhir</th>
+  </tr>
+  {% for c in hasil %}
+  <tr>
+    <td>{{ c['nama'] }}</td>
+    {% for v in c['normalisasi'] %}
+      <td>{{ '%.2f'|format(v) }}</td>
+    {% endfor %}
+    <td><b>{{ '%.4f'|format(c['skor']) }}</b></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

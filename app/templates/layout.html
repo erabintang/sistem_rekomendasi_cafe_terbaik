@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SPK SAW Flask</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>SPK SAW</h2>
+
+    <!-- Tambahan: Form Pencarian -->
+    <form action="{{ url_for('search') }}" method="GET" style="margin-bottom: 15px;">
+      <input type="text" name="q" placeholder="Cari Cafe..." style="width: 100%; padding: 5px; border-radius: 5px;">
+      <button type="submit" style="width: 100%; margin-top: 5px; padding: 5px;">Cari</button>
+    </form>
+
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('cafes') }}">Cafes</a>
+    <a href="{{ url_for('users') }}">Users</a>
+    <a href="{{ url_for('reviews') }}">Reviews</a>
+    <a href="{{ url_for('kriteria') }}">Kriteria</a>
+    <a href="{{ url_for('saw') }}">Perhitungan SAW</a>
+  </div>
+  <div class="content">
+    <!-- Tampilkan pesan error (jika ada) -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color: red;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

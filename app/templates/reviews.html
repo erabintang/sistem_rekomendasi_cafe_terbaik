@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Data Ulasan</h2>
+
+<!-- Form Tambah -->
+<form action="{{ url_for('tambah_ulasan') }}" method="POST">
+  <select name="user_id" required>
+    <option disabled selected>Pilih User</option>
+    {% for user in users %}
+    <option value="{{ user.id }}">{{ user.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="cafe_id" required>
+    <option disabled selected>Pilih Cafe</option>
+    {% for cafe in cafes %}
+    <option value="{{ cafe.id }}">{{ cafe.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="kriteria_id" required>
+    <option disabled selected>Pilih Kriteria</option>
+    {% for k in kriteria %}
+    <option value="{{ k.id }}">{{ k.nama }}</option>
+    {% endfor %}
+  </select>
+
+  <input type="text" name="isi" placeholder="Isi ulasan" required>
+  <input type="number" name="nilai" placeholder="Nilai (0-10)" min="0" max="10" step="0.1" required>
+  <button type="submit">Tambah</button>
+</form>
+
+<br>
+
+<!-- Tabel ulasan -->
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Cafe</th>
+    <th>Kriteria</th>
+    <th>Nilai</th>
+    <th>Isi</th>
+    <th>Aksi</th>
+  </tr>
+  {% for u in reviews %}
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.user.nama }}</td>
+    <td>{{ u.cafe.nama }}</td>
+    <td>{{ u.kriteria.nama }}</td>
+    <td>{{ u.nilai }}</td>
+    <td>{{ u.isi }}</td>
+    <td>
+      <!-- Form edit -->
+      <form action="{{ url_for('edit_ulasan', id=u.id) }}" method="POST" style="display:inline;">
+        <select name="user_id">
+          {% for user in users %}
+          <option value="{{ user.id }}" {% if user.id == u.user_id %}selected{% endif %}>{{ user.nama }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="cafe_id">
+          {% for cafe in cafes %}
+          <option value="{{ cafe.id }}" {% if cafe.id == u.cafe_id %}selected{% endif %}>{{ cafe.nama }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="kriteria_id">
+          {% for k in kriteria %}
+          <option value="{{ k.id }}" {% if k.id == u.kriteria_id %}selected{% endif %}>{{ k.nama }}</option>
+          {% endfor %}
+        </select>
+
+        <input type="text" name="isi" value="{{ u.isi }}" required>
+        <input type="number" name="nilai" value="{{ u.nilai }}" min="0" max="10" step="0.1" required>
+        <button type="submit">Edit</button>
+      </form>
+
+      <a href="{{ url_for('hapus_ulasan', id=u.id) }}" onclick="return confirm('Yakin hapus ulasan?')">Hapus</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

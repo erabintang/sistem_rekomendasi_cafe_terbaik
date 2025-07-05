@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Data Kriteria</h2>
+
+<!-- Form Tambah Kriteria -->
+<form action="{{ url_for('tambah_kriteria') }}" method="POST">
+  <input type="text" name="nama" placeholder="Nama Kriteria" required>
+  <input type="number" name="bobot" placeholder="Bobot (0-1)" step="0.01" min="0" max="1" required>
+  <select name="tipe" required>
+    <option disabled selected>Pilih Tipe</option>
+    <option value="benefit">Benefit</option>
+    <option value="cost">Cost</option>
+  </select>
+  <button type="submit">Tambah</button>
+</form>
+
+<br>
+
+<!-- Tabel kriteria -->
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Nama</th>
+    <th>Bobot</th>
+    <th>Tipe</th>
+    <th>Aksi</th>
+  </tr>
+  {% for k in kriteria %}
+  <tr>
+    <td>{{ k.id }}</td>
+    <td>{{ k.nama }}</td>
+    <td>{{ k.bobot }}</td>
+    <td>{{ k.tipe }}</td>
+    <td>
+      <!-- Form edit -->
+      <form action="{{ url_for('edit_kriteria', id=k.id) }}" method="POST" style="display:inline;">
+        <input type="text" name="nama" value="{{ k.nama }}" required>
+        <input type="number" name="bobot" value="{{ k.bobot }}" step="0.01" min="0" max="1" required>
+        <select name="tipe" required>
+          <option value="benefit" {% if k.tipe == 'benefit' %}selected{% endif %}>Benefit</option>
+          <option value="cost" {% if k.tipe == 'cost' %}selected{% endif %}>Cost</option>
+        </select>
+        <button type="submit">Edit</button>
+      </form>
+      <a href="{{ url_for('hapus_kriteria', id=k.id) }}" onclick="return confirm('Yakin hapus?')">Hapus</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
